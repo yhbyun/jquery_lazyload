@@ -29,6 +29,7 @@
             skip_invisible  : false,
             appear          : null,
             load            : null,
+            error           : null, // yhbyun
             placeholder     : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
         };
 
@@ -111,6 +112,15 @@
                             } else {
                                 $self.css("background-image", "url('" + original + "')");
                             }
+
+                            // yhbyun
+                            /*
+                            if (settings.effect === 'show') {
+                                $self[settings.effect](settings.effect_speed);
+                            } else {
+                                $self.velocity(settings.effect, { duration: settings.effect_speed })
+                            }
+                            */
                             $self[settings.effect](settings.effect_speed);
 
                             self.loaded = true;
@@ -124,6 +134,12 @@
                             if (settings.load) {
                                 var elements_left = elements.length;
                                 settings.load.call(self, elements_left, settings);
+                            }
+                        })
+                        // yhbyun added
+                        .one("error", function() {
+                            if (settings.error) {
+                                settings.error.call(self, settings);
                             }
                         })
                         .attr("src", $self.attr("data-" + settings.data_attribute));
